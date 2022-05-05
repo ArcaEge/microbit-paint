@@ -50,21 +50,24 @@ function plot() {
 control.inBackground(function () {
     while (true) {
         plot()
-        if (pixels[cursor[0]][cursor[1]] > 127) {
-            led.plotBrightness(cursor[1], cursor[0], pixels[cursor[0]][cursor[1]])
-            basic.pause(150)
-            led.plotBrightness(cursor[1], cursor[0], 0)
-            basic.pause(150)
-        } else {
-            led.plotBrightness(cursor[1], cursor[0], 255)
-            basic.pause(150)
-            led.plotBrightness(cursor[1], cursor[0], pixels[cursor[0]][cursor[1]])
-            basic.pause(150)
+        if (showCursor) {
+            if (pixels[cursor[0]][cursor[1]] > 127) {
+                led.plotBrightness(cursor[1], cursor[0], pixels[cursor[0]][cursor[1]])
+                basic.pause(150)
+                led.plotBrightness(cursor[1], cursor[0], 0)
+                basic.pause(150)
+            } else {
+                led.plotBrightness(cursor[1], cursor[0], 255)
+                basic.pause(150)
+                led.plotBrightness(cursor[1], cursor[0], pixels[cursor[0]][cursor[1]])
+                basic.pause(150)
+            }
         }
+        basic.pause(100)
     }
 })
 
-input.onButtonPressed(Button.A, function() {
+input.onButtonPressed(Button.A, function () {
     if (pixels[cursor[0]][cursor[1]] > 0) {
         pixels[cursor[0]][cursor[1]] -= 32
         music.playTone(Note.C5, 20)
@@ -78,4 +81,7 @@ input.onButtonPressed(Button.B, function () {
     }
 })
 
-
+input.onButtonPressed(Button.AB, function () {
+    showCursor = !showCursor
+    music.playTone(Note.C5, 20)
+})
